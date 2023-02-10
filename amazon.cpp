@@ -8,6 +8,7 @@
 #include "product.h"
 #include "db_parser.h"
 #include "product_parser.h"
+#include "mydatastore.h"
 #include "util.h"
 
 using namespace std;
@@ -29,7 +30,7 @@ int main(int argc, char* argv[])
      * Declare your derived DataStore object here replacing
      *  DataStore type to your derived type
      ****************/
-    DataStore ds;
+    MyDataStore ds;
 
 
 
@@ -100,9 +101,40 @@ int main(int argc, char* argv[])
                 done = true;
             }
 	    /* Add support for other commands here */
-
-
-
+            else if ( cmd == "VIEWCART"){
+                string entered_name;
+                if((ss >> entered_name)){
+                    ds.displayCart(entered_name);
+                }
+                else{
+                    cout << "Invalid username" << endl;
+                }
+            }
+            else if( cmd == "ADD"){
+                string entered_name;
+                int entered_index;
+                if((ss >> entered_name)){
+                    if((ss >> entered_index)){
+                        entered_index--;
+                        ds.addToCart(entered_name, entered_index, hits);
+                    }
+                    else{
+                        cout << "Invalid request" << endl;
+                    }
+                }
+                else{
+                    cout << "Invalid request" << endl;
+                }
+            }
+            else if( cmd == "BUYCART"){
+                string entered_name;
+                if((ss >> entered_name)){
+                    ds.buyCart(entered_name);
+                }
+                else{
+                    cout << "Invalid username" << endl;
+                }
+            }
 
             else {
                 cout << "Unknown command" << endl;
